@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luyện Siêu Nhớ Tiếng Đức - Auto Sheets</title>
+    <style>
+        :root { --primary: #005b9f; --success: #28a745; --danger: #dc3545; --bg: #f0f2f5; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 20px; margin: 0; }
+        .container { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 100%; max-width: 600px; text-align: center; }
+        .hidden { display: none !important; }
+        
+        /* Progress & Header */
+        .progress-container { width: 100%; background: #eee; height: 12px; border-radius: 6px; margin-bottom: 20px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--success); width: 0%; transition: 0.4s; }
+        .status-text { font-size: 14px; color: #666; margin-bottom: 10px; font-weight: bold; }
+
+        /* Card */
+        .card { border: 2px solid #eef0f2; padding: 30px; border-radius: 15px; margin: 20px 0; background: #fff; position: relative; }
+        .label-sm { font-size: 13px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; display: block; }
+        .main-word { font-size: 36px; font-weight: bold; color: var(--primary); margin-bottom: 10px; }
+        .example { font-style: italic; color: #555; margin-bottom: 25px; min-height: 20px; font-size: 17px; border-left: 4px solid #ddd; padding-left: 15px; text-align: left; }
+        
+        input[type="text"] { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 20px; box-sizing: border-box; outline: none; text-align: center; }
+        input[type="text"]:focus { border-color: var(--primary); box-shadow: 0 0 8px rgba(0,91,159,0.2); }
+        input.correct { border-color: var(--success); background: #e8f5e9; }
+        input.wrong { border-color: var(--danger); background: #ffebee; }
+
+        button { background: var(--primary); color: white; border: none; padding: 15px 30px; border-radius: 10px; cursor: pointer; font-size: 18px; font-weight: bold; width: 100%; transition: 0.2s; }
+        button:hover { opacity: 0.9; transform: translateY(-1px); }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        
+        .feedback { margin-top: 15px; font-weight: bold; font-size: 18px; min-height: 27px; }
+        .hint { font-size: 14px; color: #999; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="setup-screen">
+        <h1>🇩🇪 Học Tiếng Đức Tự Động</h1>
+        <p id="loading-status" style="color: var(--primary);">Đang kết nối dữ liệu từ Google Sheets...</p>
+        
+        <div id="settings" class="hidden">
+            <div style="text-align:left; margin: 20px 0;">
+                <label><b>1. Chọn cấp độ:</b></label>
+                <select id="level-select" style="width:100%; padding:12px; margin: 10px 0 20px 0; border-radius: 8px; border: 1px solid #ccc;">
+                    </select>
+
+                <label><b>2. Số lượng từ muốn học:</b></label>
+                <input type="number" id="word-limit" value="10" min="1" max="100" style="width:100%; padding:12px; margin-top: 10px; border-radius: 8px; border: 1px solid #ccc;">
+            </div>
+            <button onclick="startApp()">Bắt đầu luyện tập</button>
+        </div>
+    </div>
+
+    <div id="quiz-screen" class="hidden">
+        <div class="progress-container"><div id="progress-bar" class="progress-bar"></div></div>
+        <div id="round-text" class="status-text">Vòng 1: Đức ➔ Việt</div>
+        
+        <div class="card">
+            <span class="label-sm" id="prompt-label">Dịch từ này:</span>
+            <div id="display-word" class="main-word">---</div>
+            <div id="display-example" class="example">---</div>
+            
+            <input type="text" id="user-input" placeholder="Gõ câu trả lời..." autocomplete="off">
+            <div id="feedback" class="feedback"></div>
+            <div id="hint-text" class="hint"></div>
+        </div>
+        
+        <button id="action-btn" onclick="handleAction()">Kiểm tra (Enter)</button>
+    </div>
+
+    <div id="end-screen" class="hidden">
+        <h1 style="color: var(--success);">🎉 Hoàn thành!</h1>
+        <p>Bạn đã thuộc lòng các từ vựng của ngày hôm nay.</p>
+        <button onclick="location.reload()">Học tiếp danh sách khác</button>
+    </div>
+</div>
+
+<script>
+    // Link TSV từ Sheets của bạn
+    const SHEETS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgivhrxx-QDHFOy-I5hikvpBdrfUJJKqq2QZv1Wd_vrsWPPbsPZw71SGdEn7Dneok5yrAFFWBtJc4e/pub?gid=0&single=true&output=tsv";
+
+    let db = [];
+    let currentSession = [];
+    let currentIndex = 0;
+    let round = 1; // 1: De->Vi, 2: Vi->De
+    let isShowingAnswer = false;
+
+    // 1. Tải dữ liệu từ Sheets
+    window.onload = async () => {
+        try {
+            const response = await fetch(SHEETS_URL);
+            const text = await response.text();
+            const rows = text.split('\n').map(r => r.split('\t'));
+            
+            // Map dữ liệu (Bỏ qua dòng đầu tiêu đề)
+            for(let i = 1; i < rows.length; i++) {
+                if(rows[i].length >= 2) {
+                    db.push({
+                        level: (rows[i][0] || "A1").trim().toUpperCase(),
+                        de: (rows[i][1] || "").trim(),
+                        vi: (rows[i][2] || "").trim(),
+                        ex_de: (rows[i][3] || "").trim(),
+                        ex_vi: (rows[i][4] || "").trim()
+                    });
+                }
+            }
+
+            // Lấy danh sách Level duy nhất để hiện lên Select
+            const levels = [...new Set(db.map(item => item.level))];
+            const select = document.getElementById('level-select');
+            levels.forEach(l => {
+                let opt = document.createElement('option');
+                opt.value = l; opt.innerText = "Cấp độ " + l;
+                select.appendChild(opt);
+            });
+
+            document.getElementById('loading-status').classList.add('hidden');
+            document.getElementById('settings').classList.remove('hidden');
+        } catch (e) {
+            document.getElementById('loading-status').innerText = "❌ Không thể tải dữ liệu. Hãy kiểm tra lại link Sheets!";
+        }
+    };
+
+    // 2. Khởi tạo bài học
+    function startApp() {
+        const level = document.getElementById('level-select').value;
+        const limit = parseInt(document.getElementById('word-limit').value);
+        
+        currentSession = db.filter(i => i.level === level)
+                           .sort(() => Math.random() - 0.5)
+                           .slice(0, limit);
+
+        if(currentSession.length === 0) return alert("Cấp độ này hiện chưa có từ nào!");
+
+        document.getElementById('setup-screen').classList.add('hidden');
+        document.getElementById('quiz-screen').classList.remove('hidden');
+        showQuestion();
+    }
+
+    // 3. Hiển thị câu hỏi
+    function showQuestion() {
+        const item = currentSession[currentIndex];
+        const input = document.getElementById('user-input');
+        const feedback = document.getElementById('feedback');
+        
+        isShowingAnswer = false;
+        input.value = "";
+        input.className = "";
+        feedback.innerText = "";
+        document.getElementById('hint-text').innerText = "";
+        document.getElementById('action-btn').innerText = "Kiểm tra (Enter)";
+
+        if(round === 1) {
+            document.getElementById('round-text').innerText = `Vòng 1: Đức ➔ Việt (Từ ${currentIndex + 1}/${currentSession.length})`;
+            document.getElementById('prompt-label').innerText = "Nghĩa tiếng Việt của từ này là:";
+            document.getElementById('display-word').innerText = item.de;
+            document.getElementById('display-example').innerText = item.ex_de;
+        } else {
+            document.getElementById('round-text').innerText = `Vòng 2: Việt ➔ Đức (Từ ${currentIndex + 1}/${currentSession.length})`;
+            document.getElementById('prompt-label').innerText = "Từ tiếng Đức của nghĩa này là:";
+            document.getElementById('display-word').innerText = item.vi;
+            document.getElementById('display-example').innerText = item.ex_vi;
+            document.getElementById('hint-text').innerText = "(Nhớ viết hoa danh từ và có mạo từ der/die/das)";
+        }
+        input.focus();
+    }
+
+    // 4. Xử lý khi nhấn nút hoặc Enter
+    function handleAction() {
+        if (!isShowingAnswer) {
+            checkAnswer();
+        } else {
+            nextQuestion();
+        }
+    }
+
+    function checkAnswer() {
+        const userVal = document.getElementById('user-input').value.trim();
+        const item = currentSession[currentIndex];
+        const feedback = document.getElementById('feedback');
+        const input = document.getElementById('user-input');
+        
+        // Chuẩn hóa để so sánh (không phân biệt hoa thường ở vòng 1)
+        const correctDe = item.de;
+        const correctVi = item.vi;
+
+        let isCorrect = false;
+        if(round === 1) {
+            isCorrect = (userVal.toLowerCase() === correctVi.toLowerCase());
+        } else {
+            // Vòng 2 tiếng Đức yêu cầu chính xác hơn
+            isCorrect = (userVal === correctDe);
+        }
+
+        if(isCorrect) {
+            feedback.innerText = "Chính xác! 🌟";
+            feedback.style.color = "var(--success)";
+            input.classList.add('correct');
+            isShowingAnswer = true;
+            document.getElementById('action-btn').innerText = "Tiếp theo ➔";
+        } else {
+            feedback.innerText = `Sai rồi! Đáp án là: ${round === 1 ? correctVi : correctDe}`;
+            feedback.style.color = "var(--danger)";
+            input.classList.add('wrong');
+            // Nếu sai, đưa từ này xuống cuối danh sách để luyện lại
+            const failedItem = currentSession.splice(currentIndex, 1)[0];
+            currentSession.push(failedItem);
+            currentIndex--; // Giữ nguyên chỉ số để từ tiếp theo không bị nhảy cóc
+            isShowingAnswer = true;
+            document.getElementById('action-btn').innerText = "Đã hiểu, luyện lại từ này sau";
+        }
+    }
+
+    function nextQuestion() {
+        currentIndex++;
+        
+        // Cập nhật Progress Bar
+        const totalSteps = currentSession.length * 2;
+        const progress = (round === 1) ? 
+            (currentIndex / totalSteps * 100) : 
+            ((currentSession.length + currentIndex) / totalSteps * 100);
+        document.getElementById('progress-bar').style.width = progress + "%";
+
+        if(currentIndex >= currentSession.length) {
+            if(round === 1) {
+                alert("Xong vòng 1! Bây giờ hãy gõ từ tiếng Đức dựa trên nghĩa Việt.");
+                round = 2;
+                currentIndex = 0;
+                showQuestion();
+            } else {
+                document.getElementById('quiz-screen').classList.add('hidden');
+                document.getElementById('end-screen').classList.remove('hidden');
+            }
+        } else {
+            showQuestion();
+        }
+    }
+
+    // Bắt phím Enter
+    document.addEventListener('keypress', (e) => {
+        if(e.key === 'Enter') handleAction();
+    });
+</script>
+
+</body>
+</html>
