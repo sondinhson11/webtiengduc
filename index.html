@@ -1351,6 +1351,17 @@
                     <div class="a-setup-sub">Chọn cấp độ và số từ bạn muốn luyện hôm nay</div>
                     <label class="a-field-lbl">Cấp độ</label>
                     <select id="a-lv" class="a-select"></select>
+                    <label class="a-field-lbl">Ngành nghề</label>
+                    <select id="a-beruf" class="a-select">
+                      <option value="">Tất cả ngành nghề</option>
+                      <option value="Gastronomie">Gastronomie — Nhà hàng / Đầu bếp</option>
+                      <option value="Pflege">Pflege — Điều dưỡng</option>
+                      <option value="Zahnmedizin">Zahnmedizin — Trợ lý nha khoa</option>
+                      <option value="Verkauf">Verkauf — Bán hàng</option>
+                      <option value="Metzger">Metzger — Chặt thịt</option>
+                      <option value="Küchenhilfe">Küchenhilfe — Phụ bếp</option>
+                      <option value="Allgemein">Allgemein — Từ vựng chung</option>
+                    </select>
                     <label class="a-field-lbl">Số lượng từ</label>
                     <input type="number" id="a-wlim" class="a-num-input" value="10" min="1" max="100"/>
                     <button class="a-btn gold" onclick="aStart()">Bắt đầu học →</button>
@@ -1502,12 +1513,25 @@
               </div>
 
               <div id="add-form-result" style="display:none; background: var(--cream); padding: 20px; border-radius: 12px; border: 1px solid var(--border);">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px;">
                   <div>
                     <label class="a-field-lbl">Cấp độ</label>
                     <select id="add-lv" class="a-select" style="margin-bottom:0;">
                       <option value="A1">A1</option><option value="A2">A2</option>
                       <option value="B1">B1</option><option value="B2">B2</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="a-field-lbl">Ngành nghề</label>
+                    <select id="add-beruf" class="a-select" style="margin-bottom:0;">
+                      <option value="">Không chọn</option>
+                      <option value="Gastronomie">Gastronomie</option>
+                      <option value="Pflege">Pflege</option>
+                      <option value="Zahnmedizin">Zahnmedizin</option>
+                      <option value="Verkauf">Verkauf</option>
+                      <option value="Metzger">Metzger</option>
+                      <option value="Küchenhilfe">Küchenhilfe</option>
+                      <option value="Allgemein">Allgemein</option>
                     </select>
                   </div>
                   <div>
@@ -1609,6 +1633,20 @@
       let as3i = 0, as3ans = false, as3stk = 0, as3mxStk = 0, as3ok = 0, as3tot = 0;
       let as4i = 0, as4done = false, as4sel = [], as4pool = [];
 
+      function populateLvSelect() {
+        const sel = document.getElementById("a-lv");
+        const beruf = document.getElementById("a-beruf").value;
+        const filtered = beruf ? aDb.filter((x) => x.beruf === beruf) : aDb;
+        const lvs = [...new Set(filtered.map((x) => x.level))];
+        sel.innerHTML = "";
+        lvs.sort().forEach((l) => {
+          const o = document.createElement("option");
+          o.value = l;
+          o.innerText = "Cấp độ " + l;
+          sel.appendChild(o);
+        });
+      }
+
       window.onload = async () => {
         try {
           const r = await fetch(SHEETS_URL);
@@ -1617,17 +1655,14 @@
             const row = data[i];
             aDb.push({
               level: (row.Level || "A1").trim().toUpperCase(),
+              beruf: (row.Beruf || "").trim() || undefined,
               de: (row.Tieng_Duc || "").trim(),
               vi: (row.Tieng_Viet || "").trim(),
               ex_de: (row.Vi_Du_Duc || "").trim(),
               ex_vi: (row.Vi_Du_Viet || "").trim(),
             });
           }
-          const lvs = [...new Set(aDb.map((x) => x.level))];
-          const sel = document.getElementById("a-lv");
-          lvs.sort().forEach((l) => {
-            const o = document.createElement("option"); o.value = l; o.innerText = "Cấp độ " + l; sel.appendChild(o);
-          });
+          populateLvSelect();
           document.getElementById("a-loading").classList.add("hidden");
           document.getElementById("a-settings").classList.remove("hidden");
         } catch (e) {
@@ -1636,11 +1671,22 @@
         }
       };
 
+      // Repopulate level select when profession changes
+      document.addEventListener("DOMContentLoaded", () => {
+        const berufSelect = document.getElementById("a-beruf");
+        if (berufSelect) {
+          berufSelect.addEventListener("change", populateLvSelect);
+        }
+      });
+
       function aStart() {
         const lv = document.getElementById("a-lv").value;
+        const beruf = document.getElementById("a-beruf").value;
         const lim = parseInt(document.getElementById("a-wlim").value) || 10;
-        aSess = aDb.filter((x) => x.level === lv).sort(() => Math.random() - 0.5).slice(0, lim);
-        if (!aSess.length) return alert("Cấp độ này chưa có từ nào!");
+        let pool = aDb.filter((x) => x.level === lv);
+        if (beruf) pool = pool.filter((x) => x.beruf === beruf);
+        aSess = pool.sort(() => Math.random() - 0.5).slice(0, lim);
+        if (!aSess.length) return alert("Không có từ nào cho lựa chọn này!");
         document.getElementById("a-scr-setup").classList.add("hidden");
         document.getElementById("a-steps-nav").classList.remove("hidden");
         aGo(1);
@@ -2009,6 +2055,7 @@
 
         const payload = {
           level: document.getElementById("add-lv").value,
+          beruf: document.getElementById("add-beruf").value,
           de: document.getElementById("add-de").value,
           vi: document.getElementById("add-vi").value,
           ex_de: document.getElementById("add-ex-de").value,
