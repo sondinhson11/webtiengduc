@@ -1089,9 +1089,9 @@
           <button class="nav-tab" id="ntab-practice" onclick="showPage('practice')">
             <span class="nav-tab-icon">📚</span><span class="nav-tab-label">Luyện tập</span>
           </button>
-          <button class="nav-tab" id="ntab-add" onclick="showPage('add')">
+          <!-- <button class="nav-tab" id="ntab-add" onclick="showPage('add')">
             <span class="nav-tab-icon">➕</span><span class="nav-tab-label">Thêm từ</span>
-          </button>
+          </button> -->
         </div>
         <div class="nav-links-right">
           <a class="nav-cta" href="#" onclick="showPage('practice');return false;">Bắt đầu miễn phí →</a>
@@ -1602,7 +1602,7 @@
       }
 
       // ── APP LOGIC (PRACTICE) ──
-      const SHEETS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgivhrxx-QDHFOy-I5hikvpBdrfUJJKqq2QZv1Wd_vrsWPPbsPZw71SGdEn7Dneok5yrAFFWBtJc4e/pub?gid=0&single=true&output=tsv";
+      const SHEETS_URL = "./tuvung.json";
       let aDb = [], aSess = [], aStep = 0;
       let as1i = 0;
       let as2i = 0, as2ans = false, as2stk = 0, as2mxStk = 0, as2ok = 0, as2tot = 0;
@@ -1612,22 +1612,20 @@
       window.onload = async () => {
         try {
           const r = await fetch(SHEETS_URL);
-          const t = await r.text();
-          const rows = t.split("\n").map((r) => r.split("\t"));
-          for (let i = 1; i < rows.length; i++) {
-            if (rows[i].length >= 2) {
-              aDb.push({
-                level: (rows[i][0] || "A1").trim().toUpperCase(),
-                de: (rows[i][1] || "").trim(),
-                vi: (rows[i][2] || "").trim(),
-                ex_de: (rows[i][3] || "").trim(),
-                ex_vi: (rows[i][4] || "").trim(),
-              });
-            }
+          const data = await r.json();
+          for (let i = 0; i < data.length; i++) {
+            const row = data[i];
+            aDb.push({
+              level: (row.Level || "A1").trim().toUpperCase(),
+              de: (row.Tieng_Duc || "").trim(),
+              vi: (row.Tieng_Viet || "").trim(),
+              ex_de: (row.Vi_Du_Duc || "").trim(),
+              ex_vi: (row.Vi_Du_Viet || "").trim(),
+            });
           }
           const lvs = [...new Set(aDb.map((x) => x.level))];
           const sel = document.getElementById("a-lv");
-          lvs.forEach((l) => {
+          lvs.sort().forEach((l) => {
             const o = document.createElement("option"); o.value = l; o.innerText = "Cấp độ " + l; sel.appendChild(o);
           });
           document.getElementById("a-loading").classList.add("hidden");
