@@ -1926,7 +1926,7 @@
       // ═════════════════════════════════════════════════
 
       // ── PAGE TAB SWITCHING ──
-      function showPage(page) {
+      var showPage = function(page) {
         ['home','translate','practice','theme','add'].forEach(p => {
           const el = document.getElementById('page-' + p);
           if (el) el.style.display = (p === page) ? '' : 'none';
@@ -1940,7 +1940,7 @@
           void active.offsetWidth;
           active.classList.add('page-view');
         }
-      }
+      };
 
       // ── APP LOGIC (PRACTICE) ──
       const SHEETS_URL = "./tuvung.json";
@@ -2919,12 +2919,12 @@
 
       // Hook into showPage to init theme page
       const _origShowPage = showPage;
-      function showPage(page) {
+      showPage = function(page) {
         _origShowPage(page);
         if (page === 'theme' && aDb.length > 0) {
           initThemePage();
         }
-      }
+      };
 
       // Keyboard support for type mode
       document.addEventListener('keydown', (e) => {
