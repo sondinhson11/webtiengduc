@@ -1070,6 +1070,162 @@
         .nav-tabs { gap: 1px; padding: 3px; }
         .nav-tab { padding: 7px 10px; font-size: 18px; }
       }
+
+      /* ── THEME PRACTICE PAGE ── */
+      #page-theme { background: var(--white); }
+      .theme-wrapper { max-width: 1100px; margin: 0 auto; padding: 60px 32px; }
+      
+      /* Category grid */
+      .theme-cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+      .theme-cat-card {
+        background: #fff;
+        border: 2px solid var(--border);
+        border-radius: 16px;
+        padding: 22px 20px;
+        cursor: pointer;
+        transition: all 0.25s;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .theme-cat-card::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transition: opacity 0.25s;
+        border-radius: 14px;
+      }
+      .theme-cat-card:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(0,0,0,0.1); }
+      .theme-cat-card.selected { border-width: 2.5px; }
+      .theme-cat-icon { font-size: 36px; margin-bottom: 10px; display: block; }
+      .theme-cat-name { font-family: "Playfair Display", serif; font-size: 17px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.2px; }
+      .theme-cat-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+      .theme-cat-count { display: inline-block; margin-top: 8px; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+
+      /* color per beruf */
+      .tcat-Gastronomie.selected { border-color: var(--gold); }
+      .tcat-Gastronomie .theme-cat-count { background: var(--gold-lt); color: var(--gold-dk); }
+      .tcat-Pflege.selected { border-color: var(--rose); }
+      .tcat-Pflege .theme-cat-count { background: var(--rose-lt); color: #7a1f3a; }
+      .tcat-Zahnmedizin.selected { border-color: var(--sky); }
+      .tcat-Zahnmedizin .theme-cat-count { background: var(--sky-lt); color: var(--sky); }
+      .tcat-Verkauf.selected { border-color: var(--sage); }
+      .tcat-Verkauf .theme-cat-count { background: var(--sage-lt); color: var(--sage); }
+      .tcat-Metzger.selected { border-color: #b05a2a; }
+      .tcat-Metzger .theme-cat-count { background: #f5e8df; color: #8a3a18; }
+      .tcat-Küchenhilfe.selected { border-color: var(--purple); }
+      .tcat-Küchenhilfe .theme-cat-count { background: var(--purple-lt); color: var(--purple); }
+      .tcat-Allgemein.selected { border-color: var(--ink); }
+      .tcat-Allgemein .theme-cat-count { background: var(--cream); color: var(--muted); }
+
+      /* sub-topic chips */
+      .theme-sub-section { margin-top: 40px; display: none; }
+      .theme-sub-section.show { display: block; animation: fadeUp 0.3s ease both; }
+      .theme-sub-title { font-family: "Playfair Display", serif; font-size: 22px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 6px; }
+      .theme-sub-desc { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
+      .theme-sub-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+      .theme-sub-chip {
+        padding: 8px 18px; border-radius: 24px; border: 1.5px solid var(--border);
+        background: #fff; font-size: 13px; font-weight: 500; color: var(--ink);
+        cursor: pointer; transition: all 0.2s; font-family: "DM Sans", sans-serif;
+        display: flex; align-items: center; gap: 7px;
+      }
+      .theme-sub-chip:hover { border-color: var(--gold); color: var(--gold-dk); background: var(--gold-lt); }
+      .theme-sub-chip.active { background: var(--gold); border-color: var(--gold); color: #fff; font-weight: 600; }
+      .theme-sub-chip .chip-count { font-size: 10px; opacity: 0.7; font-weight: 400; }
+
+      /* Quiz area */
+      .theme-quiz-area { margin-top: 0; }
+      .theme-quiz-header { 
+        display: flex; align-items: center; justify-content: space-between;
+        margin-bottom: 20px; flex-wrap: wrap; gap: 10px;
+      }
+      .theme-quiz-badge {
+        display: inline-flex; align-items: center; gap: 7px;
+        padding: 6px 16px; border-radius: 24px;
+        font-size: 13px; font-weight: 600;
+        background: var(--gold-lt); color: var(--gold-dk); border: 1px solid #e8c56a;
+      }
+      .theme-quiz-options { display: flex; gap: 8px; flex-wrap: wrap; }
+      .theme-quiz-opt-btn {
+        padding: 7px 14px; border-radius: 8px; border: 1.5px solid var(--border);
+        background: #fff; font-size: 12px; font-weight: 600; color: var(--muted);
+        cursor: pointer; transition: all 0.2s; font-family: "DM Sans", sans-serif;
+      }
+      .theme-quiz-opt-btn.active { background: var(--gold); border-color: var(--gold); color: #fff; }
+      .theme-quiz-opt-btn:hover:not(.active) { border-color: var(--gold); color: var(--gold-dk); }
+
+      /* Quiz card styles (reuse a-card styles but with theme tweaks) */
+      .theme-card {
+        background: #fff; border: 1px solid var(--border);
+        border-radius: 16px; overflow: hidden;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+      }
+      .theme-card-stripe { height: 4px; }
+      .theme-card-body { padding: 26px 26px 22px; }
+
+      /* MCQ options */
+      .t-mcq-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 18px 0 8px; }
+      .t-mcq-btn {
+        padding: 13px 14px; border: 2px solid var(--border); border-radius: 10px;
+        background: #fff; font-family: "DM Sans", sans-serif; font-size: 14px; font-weight: 500;
+        color: var(--ink); cursor: pointer; transition: all 0.2s; text-align: left;
+        line-height: 1.4;
+      }
+      .t-mcq-btn:hover:not(:disabled) { border-color: var(--gold); background: var(--gold-lt); color: var(--gold-dk); }
+      .t-mcq-btn.correct { border-color: var(--sage); background: var(--sage-lt); color: #1a5040; font-weight: 600; }
+      .t-mcq-btn.wrong { border-color: var(--rose); background: var(--rose-lt); color: #7a1f3a; }
+      .t-mcq-btn:disabled { cursor: not-allowed; }
+
+      /* Matching game */
+      .t-match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 18px 0; }
+      .t-match-col-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); margin-bottom: 10px; }
+      .t-match-items { display: flex; flex-direction: column; gap: 7px; }
+      .t-match-item {
+        padding: 10px 14px; border: 2px solid var(--border); border-radius: 8px;
+        font-family: "DM Sans", sans-serif; font-size: 13px; font-weight: 500;
+        cursor: pointer; transition: all 0.2s; background: #fff; color: var(--ink);
+        min-height: 44px; display: flex; align-items: center;
+      }
+      .t-match-item:hover:not(.matched):not(.wrong-flash) { border-color: var(--gold); background: var(--gold-lt); }
+      .t-match-item.selected { border-color: var(--purple); background: var(--purple-lt); color: var(--purple); font-weight: 600; }
+      .t-match-item.matched { border-color: var(--sage); background: var(--sage-lt); color: #1a5040; cursor: default; }
+      .t-match-item.wrong-flash { border-color: var(--rose); background: var(--rose-lt); animation: shake 0.35s; }
+      .t-match-item.de-item { font-family: "Playfair Display", serif; font-size: 15px; font-weight: 700; }
+
+      /* Progress & stats */
+      .theme-prog-row { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+      .theme-prog-track { flex: 1; height: 6px; background: var(--cream); border-radius: 3px; overflow: hidden; }
+      .theme-prog-fill { height: 100%; border-radius: 3px; transition: width 0.4s ease; background: var(--gold); }
+      .theme-prog-label { font-size: 12px; color: var(--muted); white-space: nowrap; font-weight: 500; }
+      .theme-score-row { display: flex; gap: 8px; margin-bottom: 10px; }
+      .theme-score-pill { 
+        padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
+        background: var(--cream); color: var(--muted); border: 1px solid var(--border);
+      }
+      .theme-score-pill.ok { background: var(--sage-lt); color: #1a5040; border-color: #7dd5b8; }
+      .theme-score-pill.bad { background: var(--rose-lt); color: #7a1f3a; border-color: #e9a3b8; }
+
+      /* Result screen */
+      .theme-result { text-align: center; padding: 16px 8px; }
+      .theme-result-em { font-size: 52px; display: block; margin-bottom: 12px; }
+      .theme-result-title { font-family: "Playfair Display", serif; font-size: 26px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 6px; }
+      .theme-result-sub { font-size: 14px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
+      .theme-result-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 16px 0; }
+      .theme-result-box { background: var(--cream); border-radius: 10px; padding: 12px 8px; }
+      .theme-result-n { font-family: "Playfair Display", serif; font-size: 26px; font-weight: 700; margin-bottom: 2px; }
+      .theme-result-l { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; }
+
+      @media (max-width: 700px) {
+        .theme-cat-grid { grid-template-columns: repeat(2, 1fr); }
+        .t-mcq-options { grid-template-columns: 1fr; }
+        .t-match-grid { grid-template-columns: 1fr; }
+        .theme-wrapper { padding: 40px 16px; }
+      }
+      @media (max-width: 480px) {
+        .theme-cat-grid { grid-template-columns: 1fr; }
+      }
     </style>
   </head>
   <body>
@@ -1088,6 +1244,9 @@
           </button>
           <button class="nav-tab" id="ntab-practice" onclick="showPage('practice')">
             <span class="nav-tab-icon">📚</span><span class="nav-tab-label">Luyện tập</span>
+          </button>
+          <button class="nav-tab" id="ntab-theme" onclick="showPage('theme')">
+            <span class="nav-tab-icon">🎯</span><span class="nav-tab-label">Theo chủ đề</span>
           </button>
           <!-- <button class="nav-tab" id="ntab-add" onclick="showPage('add')">
             <span class="nav-tab-icon">➕</span><span class="nav-tab-label">Thêm từ</span>
@@ -1497,6 +1656,164 @@
     </section>
     </div>
 
+    <div id="page-theme" class="page-view" style="display:none">
+    <div class="divider"><div class="divider-line"></div></div>
+    <section>
+      <div class="theme-wrapper">
+        <div class="section-tag">Luyện tập thông minh</div>
+        <h2 class="section-title">Luyện theo chủ đề</h2>
+        <p class="section-sub">Chọn ngành nghề, rồi chọn chủ đề cụ thể — hệ thống sẽ tạo bài quiz phù hợp ngay lập tức.</p>
+
+        <!-- Beruf category grid -->
+        <div class="theme-cat-grid" id="theme-cat-grid">
+          <!-- Generated by JS -->
+        </div>
+
+        <!-- Sub-topic chips -->
+        <div class="theme-sub-section" id="theme-sub-section">
+          <div class="theme-sub-title" id="theme-sub-title">Chọn chủ đề</div>
+          <div class="theme-sub-desc" id="theme-sub-desc">Chọn chủ đề bạn muốn luyện tập hôm nay</div>
+          <div class="theme-sub-chips" id="theme-sub-chips"></div>
+
+          <!-- Quiz type selector -->
+          <div class="theme-quiz-header">
+            <div class="theme-quiz-badge" id="theme-quiz-badge">📚 <span id="theme-quiz-badge-text">0 từ được chọn</span></div>
+            <div class="theme-quiz-options">
+              <button class="theme-quiz-opt-btn active" id="tqopt-mcq" onclick="setThemeQuizType('mcq')">🎯 Trắc nghiệm</button>
+              <button class="theme-quiz-opt-btn" id="tqopt-type" onclick="setThemeQuizType('type')">⌨️ Gõ từ</button>
+              <button class="theme-quiz-opt-btn" id="tqopt-match" onclick="setThemeQuizType('match')">🔗 Ghép đôi</button>
+            </div>
+          </div>
+          <button class="a-btn gold" id="theme-start-btn" onclick="startThemeQuiz()" style="max-width: 320px; margin-bottom: 32px;" disabled>Bắt đầu luyện tập →</button>
+        </div>
+
+        <!-- Quiz area -->
+        <div class="theme-quiz-area" id="theme-quiz-area" style="display:none">
+          <!-- MCQ Mode -->
+          <div id="tquiz-mcq" class="hidden">
+            <div class="theme-card">
+              <div class="theme-card-stripe" id="tq-mcq-stripe" style="background: var(--gold);"></div>
+              <div class="theme-card-body">
+                <div class="theme-prog-row">
+                  <div class="theme-prog-track"><div class="theme-prog-fill" id="tq-mcq-prog" style="width:10%"></div></div>
+                  <span class="theme-prog-label" id="tq-mcq-ct">1/10</span>
+                </div>
+                <div class="theme-score-row">
+                  <div class="theme-score-pill ok" id="tq-mcq-ok">✓ 0</div>
+                  <div class="theme-score-pill bad" id="tq-mcq-bad">✗ 0</div>
+                </div>
+                <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);margin-bottom:8px;" id="tq-mcq-prompt">Nghĩa tiếng Việt là gì?</div>
+                <div style="font-family:'Playfair Display',serif;font-size:32px;font-weight:700;letter-spacing:-0.5px;margin-bottom:4px;" id="tq-mcq-word">---</div>
+                <div style="font-size:12px;font-style:italic;color:var(--muted);margin-bottom:2px;padding:6px 10px;border-left:2px solid var(--border);line-height:1.5;" id="tq-mcq-ex"></div>
+                <div class="t-mcq-options" id="tq-mcq-options"></div>
+                <div class="a-fb" id="tq-mcq-fb"></div>
+                <button class="a-btn gold hidden" id="tq-mcq-next" onclick="tMcqNext()" style="margin-top:12px">Tiếp →</button>
+              </div>
+            </div>
+            <button class="a-btn-sec" onclick="endThemeQuiz()" style="margin-top:12px;width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--muted);">✕ Kết thúc sớm</button>
+          </div>
+
+          <!-- Type Mode -->
+          <div id="tquiz-type" class="hidden">
+            <div class="theme-card">
+              <div class="theme-card-stripe" id="tq-type-stripe" style="background: var(--sky);"></div>
+              <div class="theme-card-body">
+                <div class="theme-prog-row">
+                  <div class="theme-prog-track"><div class="theme-prog-fill" id="tq-type-prog" style="width:10%;background:var(--sky)"></div></div>
+                  <span class="theme-prog-label" id="tq-type-ct">1/10</span>
+                </div>
+                <div class="theme-score-row">
+                  <div class="theme-score-pill ok" id="tq-type-ok">✓ 0</div>
+                  <div class="theme-score-pill bad" id="tq-type-bad">✗ 0</div>
+                </div>
+                <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);margin-bottom:8px;" id="tq-type-prompt">Gõ từ tiếng Đức:</div>
+                <div style="font-size:18px;font-weight:600;margin-bottom:4px;color:var(--muted);" id="tq-type-vi">---</div>
+                <div style="font-size:12px;font-style:italic;color:var(--muted);margin-bottom:14px;padding:6px 10px;border-left:2px solid var(--border);line-height:1.5;" id="tq-type-ex"></div>
+                <input type="text" class="a-ans-inp" id="tq-type-inp" placeholder="Gõ từ tiếng Đức (kèm mạo từ)…" autocomplete="off"/>
+                <div class="a-umlaut" style="margin-top:8px;">
+                  <span style="font-size:10px;color:var(--muted)">Chèn:</span>
+                  <button class="a-ub" onclick="tTypeIns('ä')">ä</button>
+                  <button class="a-ub" onclick="tTypeIns('ö')">ö</button>
+                  <button class="a-ub" onclick="tTypeIns('ü')">ü</button>
+                  <button class="a-ub" onclick="tTypeIns('Ä')">Ä</button>
+                  <button class="a-ub" onclick="tTypeIns('Ö')">Ö</button>
+                  <button class="a-ub" onclick="tTypeIns('Ü')">Ü</button>
+                  <button class="a-ub" onclick="tTypeIns('ß')">ß</button>
+                </div>
+                <div class="a-fb" id="tq-type-fb" style="margin-top:10px"></div>
+                <button class="a-btn sky" id="tq-type-btn" onclick="tTypeCheck()" style="margin-top:10px">Kiểm tra</button>
+              </div>
+            </div>
+            <button class="a-btn-sec" onclick="endThemeQuiz()" style="margin-top:12px;width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--muted);">✕ Kết thúc sớm</button>
+          </div>
+
+          <!-- Match Mode -->
+          <div id="tquiz-match" class="hidden">
+            <div class="theme-card">
+              <div class="theme-card-stripe" style="background: var(--purple);"></div>
+              <div class="theme-card-body">
+                <div class="theme-prog-row">
+                  <div class="theme-prog-track"><div class="theme-prog-fill" id="tq-match-prog" style="width:10%;background:var(--purple)"></div></div>
+                  <span class="theme-prog-label" id="tq-match-ct">Vòng 1</span>
+                </div>
+                <div class="theme-score-row">
+                  <div class="theme-score-pill ok" id="tq-match-ok">✓ 0 cặp</div>
+                  <div class="theme-score-pill bad" id="tq-match-bad">✗ 0</div>
+                </div>
+                <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);margin-bottom:14px;">Ghép từ tiếng Đức với nghĩa tiếng Việt</div>
+                <div class="t-match-grid">
+                  <div>
+                    <div class="t-match-col-title">🇩🇪 Tiếng Đức</div>
+                    <div class="t-match-items" id="tq-match-de"></div>
+                  </div>
+                  <div>
+                    <div class="t-match-col-title">🇻🇳 Tiếng Việt</div>
+                    <div class="t-match-items" id="tq-match-vi"></div>
+                  </div>
+                </div>
+                <div class="a-fb" id="tq-match-fb"></div>
+                <button class="a-btn purple hidden" id="tq-match-next" onclick="tMatchNext()" style="margin-top:12px">Vòng tiếp →</button>
+              </div>
+            </div>
+            <button class="a-btn-sec" onclick="endThemeQuiz()" style="margin-top:12px;width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--muted);">✕ Kết thúc sớm</button>
+          </div>
+
+          <!-- Result Screen -->
+          <div id="tquiz-result" class="hidden">
+            <div class="theme-card">
+              <div class="theme-card-stripe" style="background: linear-gradient(90deg, var(--gold), var(--sage));"></div>
+              <div class="theme-card-body theme-result">
+                <span class="theme-result-em" id="tr-em">🎉</span>
+                <div class="theme-result-title" id="tr-title">Hoàn thành!</div>
+                <div class="theme-result-sub" id="tr-sub">Bạn đã luyện xong chủ đề này.</div>
+                <div class="theme-result-grid">
+                  <div class="theme-result-box">
+                    <div class="theme-result-n" style="color:var(--gold)" id="tr-total">0</div>
+                    <div class="theme-result-l">Tổng câu</div>
+                  </div>
+                  <div class="theme-result-box">
+                    <div class="theme-result-n" style="color:var(--sage)" id="tr-correct">0</div>
+                    <div class="theme-result-l">Đúng</div>
+                  </div>
+                  <div class="theme-result-box">
+                    <div class="theme-result-n" style="color:var(--sky)" id="tr-pct">0%</div>
+                    <div class="theme-result-l">Tỷ lệ</div>
+                  </div>
+                </div>
+                <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px;">
+                  <button class="a-btn gold" onclick="restartThemeQuiz()" style="max-width:200px">🔄 Luyện lại</button>
+                  <button class="a-btn-sec" onclick="backToThemeSelect()" style="flex:1;max-width:200px;padding:12px;border:1.5px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;">← Chọn chủ đề khác</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+    </div>
+
+
     <div id="page-add" class="page-view" style="display:none">
       <div class="divider"><div class="divider-line"></div></div>
       <section class="section">
@@ -1610,7 +1927,7 @@
 
       // ── PAGE TAB SWITCHING ──
       function showPage(page) {
-        ['home','translate','practice', 'add'].forEach(p => {
+        ['home','translate','practice','theme','add'].forEach(p => {
           const el = document.getElementById('page-' + p);
           if (el) el.style.display = (p === page) ? '' : 'none';
           const tab = document.getElementById('ntab-' + p);
@@ -2087,6 +2404,535 @@
         btn.innerText = "💾 Lưu vào Sheet";
         btn.disabled = false;
       }
+
+
+
+      // ══════════════════════════════════════════════
+      // ── THEME PRACTICE MODULE ──
+      // ══════════════════════════════════════════════
+
+      // Category definitions with icons, colors, and sub-topic keyword maps
+      const THEME_CATS = [
+        {
+          key: 'Gastronomie', 
+          icon: '🍳', 
+          name: 'Nhà hàng & Đầu bếp',
+          desc: 'Gastronomie — dụng cụ, món ăn, quy trình bếp',
+          color: 'var(--gold)',
+          topics: [
+            { key: 'dung-cu', label: '🔪 Dụng cụ bếp', keywords: ['dao','nồi','chảo','thớt','muỗng','nĩa','đĩa','tách','ly','bếp','lò','tủ','bồn','ấm','xẻng','rổ','cốc','dụng cụ','spatula','khăn'] },
+            { key: 'mon-an', label: '🍜 Món ăn & Nguyên liệu', keywords: ['thịt','cá','rau','trái','khoai','gạo','mì','bánh','phở','canh','súp','salad','món','cơm','ăn','nguyên liệu','sốt','dầu','muối','đường','gia vị'] },
+            { key: 'pha-che', label: '👨‍🍳 Kỹ thuật nấu', keywords: ['nấu','rán','chiên','hầm','luộc','nướng','xào','cắt','thái','khuấy','pha','trộn','đun','sôi','rang'] },
+            { key: 'phuc-vu', label: '🍽️ Phục vụ bàn', keywords: ['phục vụ','bàn','khách','gọi','menu','thực đơn','tính tiền','khăn ăn','tráng miệng','khai vị','đặt','đặt bàn','gọi món'] },
+          ]
+        },
+        {
+          key: 'Pflege',
+          icon: '🏥',
+          name: 'Điều dưỡng',
+          desc: 'Pflege — thuốc, thiết bị, chăm sóc bệnh nhân',
+          color: 'var(--rose)',
+          topics: [
+            { key: 'thuoc', label: '💊 Thuốc & Dược phẩm', keywords: ['thuốc','viên','giọt','kem','bột','tiêm','kháng sinh','insulin','vitamin','dung dịch','truyền','dịch truyền'] },
+            { key: 'dung-cu-y', label: '🩺 Dụng cụ y tế', keywords: ['kim','ống','băng','gạc','nẹp','bột','kim tiêm','ống thông','máy','thiết bị','kẹp','dao mổ','kéo','dụng cụ','panh'] },
+            { key: 'cham-soc', label: '🧑‍⚕️ Chăm sóc bệnh nhân', keywords: ['bệnh','bệnh nhân','chăm sóc','vệ sinh','tắm','thay','giường','phòng','huyết áp','đo','kiểm tra','nhiệt độ','cân','thở'] },
+            { key: 'trieu-chung', label: '🤒 Triệu chứng & Bệnh lý', keywords: ['đau','sốt','ho','buồn','nôn','chóng mặt','mệt','viêm','vết thương','sưng','máu','tiểu','phân'] },
+          ]
+        },
+        {
+          key: 'Zahnmedizin',
+          icon: '🦷',
+          name: 'Nha khoa',
+          desc: 'Zahnmedizin — dụng cụ, thủ thuật, chăm sóc răng',
+          color: 'var(--sky)',
+          topics: [
+            { key: 'dung-cu-nha', label: '🔧 Dụng cụ nha khoa', keywords: ['gương','nhíp','kìm','mũi khoan','ống tiêm','đèn','khoan','dụng cụ','máy','kéo','dao','trâm','spatula'] },
+            { key: 'rang', label: '🦷 Răng & Cấu trúc', keywords: ['răng','nướu','xương','mô','lợi','hàm','miệng','nước bọt','lưỡi','họng','mặt','cạnh','bề mặt','chân răng'] },
+            { key: 'thu-thuat', label: '💉 Thủ thuật & Điều trị', keywords: ['nhổ','trồng','hàn','tẩy','chỉnh','niềng','mão','cầu','trám','chụp','gây tê','phẫu thuật','điều trị'] },
+            { key: 've-sinh-nha', label: '🪥 Vệ sinh răng miệng', keywords: ['bàn chải','kem đánh răng','chỉ nha khoa','súc miệng','vệ sinh','flo','nước','thuốc','làm sạch','đánh răng'] },
+          ]
+        },
+        {
+          key: 'Verkauf',
+          icon: '🛒',
+          name: 'Bán hàng',
+          desc: 'Verkauf — cửa hàng, sản phẩm, giao dịch',
+          color: 'var(--sage)',
+          topics: [
+            { key: 'cua-hang', label: '🏪 Cửa hàng & Không gian', keywords: ['cửa hàng','quầy','kệ','kho','cửa','lối','thu ngân','thùng','quầy hàng','bảng','đèn','biển','khu','phòng'] },
+            { key: 'san-pham', label: '📦 Sản phẩm & Hàng hóa', keywords: ['sản phẩm','hàng','hóa','giá','đơn vị','kích thước','loại','nhãn','bao bì','mẫu','số lượng','hàng hóa'] },
+            { key: 'giao-dich', label: '💰 Giao dịch & Thanh toán', keywords: ['tiền','giá','thanh toán','thẻ','tiền mặt','hóa đơn','biên lai','chiết khấu','giảm giá','mua','bán','trả','hoàn'] },
+            { key: 'khach-hang', label: '🤝 Khách hàng & Tư vấn', keywords: ['khách','tư vấn','giúp','hỏi','trả lời','phàn nàn','đề xuất','yêu cầu','phục vụ','hài lòng','đổi trả','bảo hành'] },
+          ]
+        },
+        {
+          key: 'Metzger',
+          icon: '🥩',
+          name: 'Chặt thịt',
+          desc: 'Metzger — các loại thịt, xúc xích, kỹ thuật pha lọc',
+          color: '#b05a2a',
+          topics: [
+            { key: 'thit-tuoi', label: '🐄 Thịt tươi các loại', keywords: ['thịt bò','thịt heo','thịt gà','thịt cừu','thịt bê','thịt vịt','thịt cá','thịt gia cầm','thịt xay','thịt ngan','thịt thú'] },
+            { key: 'xuc-xich', label: '🌭 Xúc xích & Chế biến', keywords: ['xúc xích','wurst','schinken','speck','salami','xông khói','muối','lên men','ướp','chế biến'] },
+            { key: 'bo-phan', label: '🔪 Bộ phận & Cắt thái', keywords: ['sườn','lưng','đùi','bắp','vai','cổ','lưỡi','gan','tim','thận','phổi','cắt','thái','pha lọc','xẻ','dăm'] },
+            { key: 'dung-cu-mo', label: '🗡️ Dụng cụ & Thiết bị', keywords: ['dao','kéo','máy','móc','cưa','thớt','cân','tủ','bàn','đai','dây','bao','móc'] },
+          ]
+        },
+        {
+          key: 'Küchenhilfe',
+          icon: '🍽️',
+          name: 'Phụ bếp',
+          desc: 'Küchenhilfe — nguyên liệu, vệ sinh, hỗ trợ bếp',
+          color: 'var(--purple)',
+          topics: [
+            { key: 'gia-cam', label: '🐓 Gia cầm & Thủy sản', keywords: ['vịt','gà','ngỗng','cá','tôm','mực','ốc','sò','hến','nghêu','chim trĩ','ngan'] },
+            { key: 'rau-cu', label: '🥦 Rau củ & Trái cây', keywords: ['rau','củ','cà','cà chua','ớt','hành','tỏi','gừng','bắp','đậu','nấm','cải','xà lách','trái','táo','cam','chanh','dưa'] },
+            { key: 've-sinh-bep', label: '🧹 Vệ sinh & Dọn dẹp', keywords: ['vệ sinh','lau','chùi','rửa','xịt','chất tẩy','nước lau','khăn','cọ','quét','dọn','sạch','rác','thùng rác'] },
+            { key: 'kho-bai', label: '📦 Kho bãi & Lưu trữ', keywords: ['kho','tủ','ngăn','hộp','bảo quản','đông','lạnh','nhiệt độ','hạn sử dụng','ghi nhãn','sắp xếp','thực phẩm'] },
+          ]
+        },
+        {
+          key: 'Allgemein',
+          icon: '📖',
+          name: 'Từ vựng chung',
+          desc: 'Allgemein — động từ, giao tiếp, nơi chốn, thời gian',
+          color: 'var(--ink)',
+          topics: [
+            { key: 'dong-tu', label: '🔤 Động từ thông dụng', keywords: ['là','có','làm','đi','đến','nói','hỏi','trả lời','muốn','cần','có thể','phải','được','để','cho','lấy','đặt','đưa'] },
+            { key: 'giao-tiep', label: '💬 Giao tiếp & Xã giao', keywords: ['xin chào','cảm ơn','xin lỗi','tạm biệt','vui lòng','dạ','không','vâng','ok','được rồi','hiểu rồi'] },
+            { key: 'thoi-gian', label: '⏰ Thời gian & Lịch', keywords: ['giờ','phút','ngày','tuần','tháng','năm','hôm nay','hôm qua','ngày mai','buổi','sáng','trưa','chiều','tối','bây giờ'] },
+            { key: 'noi-chon', label: '📍 Nơi chốn & Địa điểm', keywords: ['phòng','nhà','bệnh viện','cửa hàng','văn phòng','trường','chợ','đường','nơi','địa điểm','khu','tầng','số','trái','phải'] },
+          ]
+        }
+      ];
+
+      // State
+      let tSelectedBeruf = null;
+      let tSelectedTopics = new Set();
+      let tQuizType = 'mcq';
+      let tQuizWords = [];
+      let tQuizIdx = 0;
+      let tQuizOk = 0;
+      let tQuizBad = 0;
+      let tMcqAnswered = false;
+      let tTypeAnswered = false;
+      let tMatchRound = 0;
+      let tMatchPairs = [];
+      let tMatchOk = 0;
+      let tMatchBad = 0;
+      let tMatchTotal = 0;
+      let tMatchSelDe = null;
+      let tMatchSelVi = null;
+      let tMatchMatchedCount = 0;
+
+      // Init theme page
+      function initThemePage() {
+        const grid = document.getElementById('theme-cat-grid');
+        grid.innerHTML = '';
+        THEME_CATS.forEach(cat => {
+          const wordsForCat = aDb.filter(x => x.beruf === cat.key);
+          const card = document.createElement('div');
+          card.className = `theme-cat-card tcat-${cat.key}`;
+          card.onclick = () => selectThemeBeruf(cat.key);
+          card.innerHTML = `
+            <span class="theme-cat-icon">${cat.icon}</span>
+            <div class="theme-cat-name">${cat.name}</div>
+            <div class="theme-cat-desc">${cat.desc}</div>
+            <span class="theme-cat-count">${wordsForCat.length} từ</span>
+          `;
+          grid.appendChild(card);
+        });
+      }
+
+      function selectThemeBeruf(berufKey) {
+        tSelectedBeruf = berufKey;
+        tSelectedTopics.clear();
+
+        // Update card visuals
+        document.querySelectorAll('.theme-cat-card').forEach(c => c.classList.remove('selected'));
+        document.querySelectorAll(`.tcat-${berufKey}`).forEach(c => c.classList.add('selected'));
+
+        const cat = THEME_CATS.find(c => c.key === berufKey);
+        const berufWords = aDb.filter(x => x.beruf === berufKey);
+
+        // Build sub-topic chips
+        const chipsEl = document.getElementById('theme-sub-chips');
+        chipsEl.innerHTML = '';
+
+        // "Tất cả" chip
+        const allChip = document.createElement('div');
+        allChip.className = 'theme-sub-chip';
+        allChip.dataset.key = '__all__';
+        const allCount = berufWords.length;
+        allChip.innerHTML = `🗂️ Tất cả chủ đề <span class="chip-count">(${allCount})</span>`;
+        allChip.onclick = () => toggleThemeTopic('__all__', allChip, berufWords.length);
+        chipsEl.appendChild(allChip);
+
+        cat.topics.forEach(topic => {
+          const matched = berufWords.filter(w => {
+            const vi = (w.vi || '').toLowerCase();
+            return topic.keywords.some(k => vi.includes(k.toLowerCase()));
+          });
+          if (matched.length === 0) return;
+          const chip = document.createElement('div');
+          chip.className = 'theme-sub-chip';
+          chip.dataset.key = topic.key;
+          chip.innerHTML = `${topic.label} <span class="chip-count">(${matched.length})</span>`;
+          chip.onclick = () => toggleThemeTopic(topic.key, chip, matched.length);
+          chipsEl.appendChild(chip);
+        });
+
+        document.getElementById('theme-sub-title').innerText = `${cat.icon} ${cat.name}`;
+        document.getElementById('theme-sub-desc').innerText = 'Chọn một hoặc nhiều chủ đề để luyện tập';
+        document.getElementById('theme-sub-section').className = 'theme-sub-section show';
+        document.getElementById('theme-quiz-area').style.display = 'none';
+        document.getElementById('theme-start-btn').disabled = true;
+        updateThemeBadge();
+      }
+
+      function toggleThemeTopic(key, chipEl, count) {
+        // If clicking 'all', select only all
+        if (key === '__all__') {
+          tSelectedTopics.clear();
+          document.querySelectorAll('.theme-sub-chip').forEach(c => c.classList.remove('active'));
+          tSelectedTopics.add('__all__');
+          chipEl.classList.add('active');
+        } else {
+          // Deselect 'all' if selecting specific
+          tSelectedTopics.delete('__all__');
+          document.querySelectorAll('.theme-sub-chip[data-key="__all__"]').forEach(c => c.classList.remove('active'));
+          
+          if (tSelectedTopics.has(key)) {
+            tSelectedTopics.delete(key);
+            chipEl.classList.remove('active');
+          } else {
+            tSelectedTopics.add(key);
+            chipEl.classList.add('active');
+          }
+        }
+        updateThemeBadge();
+      }
+
+      function getThemeWords() {
+        if (!tSelectedBeruf) return [];
+        const cat = THEME_CATS.find(c => c.key === tSelectedBeruf);
+        const berufWords = aDb.filter(x => x.beruf === tSelectedBeruf);
+        
+        if (tSelectedTopics.has('__all__') || tSelectedTopics.size === 0) return berufWords;
+
+        const result = new Map();
+        tSelectedTopics.forEach(topicKey => {
+          const topic = cat.topics.find(t => t.key === topicKey);
+          if (!topic) return;
+          berufWords.forEach(w => {
+            const vi = (w.vi || '').toLowerCase();
+            if (topic.keywords.some(k => vi.includes(k.toLowerCase()))) {
+              result.set(w.de + w.vi, w);
+            }
+          });
+        });
+        return [...result.values()];
+      }
+
+      function updateThemeBadge() {
+        const words = getThemeWords();
+        const badge = document.getElementById('theme-quiz-badge-text');
+        badge.innerText = `${words.length} từ được chọn`;
+        const startBtn = document.getElementById('theme-start-btn');
+        startBtn.disabled = words.length < 2;
+      }
+
+      function setThemeQuizType(type) {
+        tQuizType = type;
+        ['mcq','type','match'].forEach(t => {
+          document.getElementById('tqopt-' + t).className = 'theme-quiz-opt-btn' + (t === type ? ' active' : '');
+        });
+      }
+
+      function startThemeQuiz() {
+        let words = getThemeWords();
+        if (words.length < 2) return;
+        tQuizWords = words.sort(() => Math.random() - 0.5);
+        tQuizIdx = 0; tQuizOk = 0; tQuizBad = 0;
+
+        document.getElementById('theme-start-btn').style.display = 'none';
+        document.getElementById('theme-quiz-area').style.display = 'block';
+        document.getElementById('theme-sub-section').querySelector('.theme-sub-chips').style.pointerEvents = 'none';
+        document.getElementById('theme-sub-section').querySelector('.theme-sub-chips').style.opacity = '0.5';
+
+        // Hide all quiz panels
+        ['tquiz-mcq','tquiz-type','tquiz-match','tquiz-result'].forEach(id => {
+          document.getElementById(id).className = 'hidden';
+        });
+
+        if (tQuizType === 'mcq') startMcqRound();
+        else if (tQuizType === 'type') startTypeRound();
+        else startMatchRound();
+      }
+
+      function endThemeQuiz() {
+        showThemeResult();
+      }
+
+      function restartThemeQuiz() {
+        document.getElementById('theme-start-btn').style.display = '';
+        document.getElementById('theme-quiz-area').style.display = 'none';
+        const chips = document.getElementById('theme-sub-section').querySelector('.theme-sub-chips');
+        chips.style.pointerEvents = '';
+        chips.style.opacity = '';
+        startThemeQuiz();
+      }
+
+      function backToThemeSelect() {
+        document.getElementById('theme-start-btn').style.display = '';
+        document.getElementById('theme-quiz-area').style.display = 'none';
+        const chips = document.getElementById('theme-sub-section').querySelector('.theme-sub-chips');
+        chips.style.pointerEvents = '';
+        chips.style.opacity = '';
+        tSelectedTopics.clear();
+        document.querySelectorAll('.theme-sub-chip').forEach(c => c.classList.remove('active'));
+        updateThemeBadge();
+      }
+
+      // ── MCQ MODE ──
+      function startMcqRound() {
+        document.getElementById('tquiz-mcq').className = '';
+        tMcqAnswered = false;
+        const it = tQuizWords[tQuizIdx];
+        // Randomly decide direction
+        const deToVi = Math.random() > 0.5;
+        const pct = Math.round(((tQuizIdx + 1) / tQuizWords.length) * 100);
+        document.getElementById('tq-mcq-prog').style.width = pct + '%';
+        document.getElementById('tq-mcq-ct').innerText = `${tQuizIdx + 1}/${tQuizWords.length}`;
+        document.getElementById('tq-mcq-ok').innerText = '✓ ' + tQuizOk;
+        document.getElementById('tq-mcq-bad').innerText = '✗ ' + tQuizBad;
+        document.getElementById('tq-mcq-fb').className = 'a-fb';
+        document.getElementById('tq-mcq-next').className = 'a-btn gold hidden';
+
+        if (deToVi) {
+          document.getElementById('tq-mcq-prompt').innerText = 'Nghĩa tiếng Việt là gì?';
+          document.getElementById('tq-mcq-word').innerText = it.de;
+          document.getElementById('tq-mcq-ex').innerText = it.ex_de || '';
+          document.getElementById('tq-mcq-ex').style.display = it.ex_de ? '' : 'none';
+        } else {
+          document.getElementById('tq-mcq-prompt').innerText = 'Từ tiếng Đức tương ứng?';
+          document.getElementById('tq-mcq-word').innerText = it.vi;
+          document.getElementById('tq-mcq-ex').innerText = it.ex_vi || '';
+          document.getElementById('tq-mcq-ex').style.display = it.ex_vi ? '' : 'none';
+        }
+
+        // Build 4 options
+        const wrong = tQuizWords.filter(w => w !== it).sort(() => Math.random() - 0.5).slice(0, 3);
+        const options = [...wrong, it].sort(() => Math.random() - 0.5);
+        const opts = document.getElementById('tq-mcq-options');
+        opts.innerHTML = '';
+        options.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = 't-mcq-btn';
+          btn.innerText = deToVi ? opt.vi : opt.de;
+          btn.onclick = () => {
+            if (tMcqAnswered) return;
+            tMcqAnswered = true;
+            const isCorrect = opt === it;
+            if (isCorrect) { btn.classList.add('correct'); tQuizOk++; }
+            else { btn.classList.add('wrong'); tQuizBad++; }
+            // Show correct
+            opts.querySelectorAll('.t-mcq-btn').forEach(b => {
+              b.disabled = true;
+              if ((deToVi ? b.innerText === it.vi : b.innerText === it.de) && !isCorrect) b.classList.add('correct');
+            });
+            const fb = document.getElementById('tq-mcq-fb');
+            fb.className = 'a-fb ' + (isCorrect ? 'ok' : 'bad');
+            fb.innerText = isCorrect ? `✓ Chính xác!` : `✗ Đáp án: ${deToVi ? it.vi : it.de}`;
+            document.getElementById('tq-mcq-ok').innerText = '✓ ' + tQuizOk;
+            document.getElementById('tq-mcq-bad').innerText = '✗ ' + tQuizBad;
+            document.getElementById('tq-mcq-next').className = 'a-btn gold';
+          };
+          opts.appendChild(btn);
+        });
+      }
+
+      function tMcqNext() {
+        tQuizIdx++;
+        if (tQuizIdx >= tQuizWords.length) { showThemeResult(); return; }
+        startMcqRound();
+      }
+
+      // ── TYPE MODE ──
+      function startTypeRound() {
+        document.getElementById('tquiz-type').className = '';
+        tTypeAnswered = false;
+        const it = tQuizWords[tQuizIdx];
+        const pct = Math.round(((tQuizIdx + 1) / tQuizWords.length) * 100);
+        document.getElementById('tq-type-prog').style.width = pct + '%';
+        document.getElementById('tq-type-ct').innerText = `${tQuizIdx + 1}/${tQuizWords.length}`;
+        document.getElementById('tq-type-ok').innerText = '✓ ' + tQuizOk;
+        document.getElementById('tq-type-bad').innerText = '✗ ' + tQuizBad;
+        document.getElementById('tq-type-vi').innerText = it.vi;
+        document.getElementById('tq-type-ex').innerText = it.ex_vi || '';
+        document.getElementById('tq-type-ex').style.display = it.ex_vi ? '' : 'none';
+        const inp = document.getElementById('tq-type-inp');
+        inp.value = ''; inp.className = 'a-ans-inp'; inp.disabled = false;
+        document.getElementById('tq-type-fb').className = 'a-fb';
+        document.getElementById('tq-type-btn').innerText = 'Kiểm tra';
+        inp.focus();
+      }
+
+      function tTypeIns(ch) {
+        const inp = document.getElementById('tq-type-inp');
+        const s = inp.selectionStart, e = inp.selectionEnd;
+        inp.value = inp.value.slice(0, s) + ch + inp.value.slice(e);
+        inp.selectionStart = inp.selectionEnd = s + ch.length; inp.focus();
+      }
+
+      function tTypeCheck() {
+        if (tTypeAnswered) {
+          tQuizIdx++;
+          if (tQuizIdx >= tQuizWords.length) { showThemeResult(); return; }
+          startTypeRound(); return;
+        }
+        const val = document.getElementById('tq-type-inp').value.trim();
+        if (!val) return;
+        const it = tQuizWords[tQuizIdx];
+        const ok = aIsDeOk(val, it.de);
+        const inp = document.getElementById('tq-type-inp');
+        const fb = document.getElementById('tq-type-fb');
+        if (ok) { inp.classList.add('correct'); fb.className = 'a-fb ok'; fb.innerText = '✓ Chính xác! (' + it.de + ')'; tQuizOk++; }
+        else { inp.classList.add('wrong'); fb.className = 'a-fb bad'; fb.innerText = '✗ Đáp án: ' + it.de; tQuizBad++; }
+        inp.disabled = true;
+        document.getElementById('tq-type-ok').innerText = '✓ ' + tQuizOk;
+        document.getElementById('tq-type-bad').innerText = '✗ ' + tQuizBad;
+        document.getElementById('tq-type-btn').innerText = 'Tiếp →';
+        tTypeAnswered = true;
+      }
+
+      // ── MATCH MODE ──
+      const MATCH_ROUND_SIZE = 5;
+
+      function startMatchRound() {
+        document.getElementById('tquiz-match').className = '';
+        tMatchSelDe = null; tMatchSelVi = null; tMatchMatchedCount = 0;
+        const start = tMatchRound * MATCH_ROUND_SIZE;
+        tMatchPairs = tQuizWords.slice(start, start + MATCH_ROUND_SIZE);
+        if (tMatchPairs.length === 0) { showThemeResult(); return; }
+        const totalRounds = Math.ceil(tQuizWords.length / MATCH_ROUND_SIZE);
+        document.getElementById('tq-match-ct').innerText = `Vòng ${tMatchRound + 1}/${totalRounds}`;
+        const pct = Math.round(((tMatchRound + 1) / totalRounds) * 100);
+        document.getElementById('tq-match-prog').style.width = pct + '%';
+        document.getElementById('tq-match-ok').innerText = '✓ ' + tMatchOk + ' cặp';
+        document.getElementById('tq-match-bad').innerText = '✗ ' + tMatchBad;
+        document.getElementById('tq-match-fb').className = 'a-fb';
+        document.getElementById('tq-match-next').className = 'a-btn purple hidden';
+        renderMatchItems();
+      }
+
+      function renderMatchItems() {
+        const deCol = document.getElementById('tq-match-de');
+        const viCol = document.getElementById('tq-match-vi');
+        deCol.innerHTML = ''; viCol.innerHTML = '';
+        const shuffledVi = [...tMatchPairs].sort(() => Math.random() - 0.5);
+        tMatchPairs.forEach((pair, i) => {
+          const de = document.createElement('div');
+          de.className = 't-match-item de-item';
+          de.dataset.idx = i;
+          de.dataset.type = 'de';
+          de.innerText = pair.de.split(',')[0].trim();
+          de.onclick = () => selectMatchItem('de', i, de);
+          deCol.appendChild(de);
+        });
+        shuffledVi.forEach((pair) => {
+          const origIdx = tMatchPairs.indexOf(pair);
+          const vi = document.createElement('div');
+          vi.className = 't-match-item';
+          vi.dataset.idx = origIdx;
+          vi.dataset.type = 'vi';
+          vi.innerText = pair.vi;
+          vi.onclick = () => selectMatchItem('vi', origIdx, vi);
+          viCol.appendChild(vi);
+        });
+      }
+
+      function selectMatchItem(type, idx, el) {
+        if (el.classList.contains('matched')) return;
+        if (type === 'de') {
+          if (tMatchSelDe) tMatchSelDe.el.classList.remove('selected');
+          tMatchSelDe = { idx, el };
+          el.classList.add('selected');
+        } else {
+          if (tMatchSelVi) tMatchSelVi.el.classList.remove('selected');
+          tMatchSelVi = { idx, el };
+          el.classList.add('selected');
+        }
+        if (tMatchSelDe && tMatchSelVi) {
+          if (tMatchSelDe.idx === tMatchSelVi.idx) {
+            // Correct!
+            tMatchSelDe.el.classList.remove('selected'); tMatchSelDe.el.classList.add('matched');
+            tMatchSelVi.el.classList.remove('selected'); tMatchSelVi.el.classList.add('matched');
+            tMatchOk++; tMatchMatchedCount++;
+            tMatchSelDe = null; tMatchSelVi = null;
+            document.getElementById('tq-match-ok').innerText = '✓ ' + tMatchOk + ' cặp';
+            if (tMatchMatchedCount >= tMatchPairs.length) {
+              document.getElementById('tq-match-fb').className = 'a-fb ok';
+              document.getElementById('tq-match-fb').innerText = '🎉 Tuyệt vời! Ghép đúng hết!';
+              document.getElementById('tq-match-next').className = 'a-btn purple';
+            }
+          } else {
+            // Wrong
+            tMatchBad++;
+            document.getElementById('tq-match-bad').innerText = '✗ ' + tMatchBad;
+            const deEl = tMatchSelDe.el, viEl = tMatchSelVi.el;
+            deEl.classList.remove('selected'); deEl.classList.add('wrong-flash');
+            viEl.classList.remove('selected'); viEl.classList.add('wrong-flash');
+            setTimeout(() => { deEl.classList.remove('wrong-flash'); viEl.classList.remove('wrong-flash'); }, 380);
+            tMatchSelDe = null; tMatchSelVi = null;
+          }
+        }
+      }
+
+      function tMatchNext() {
+        tMatchRound++;
+        const start = tMatchRound * MATCH_ROUND_SIZE;
+        if (start >= tQuizWords.length) { showThemeResult(); return; }
+        startMatchRound();
+      }
+
+      // ── RESULT ──
+      function showThemeResult() {
+        ['tquiz-mcq','tquiz-type','tquiz-match'].forEach(id => {
+          document.getElementById(id).className = 'hidden';
+        });
+        document.getElementById('tquiz-result').className = '';
+        let total, correct;
+        if (tQuizType === 'match') {
+          total = tMatchOk + tMatchBad; correct = tMatchOk;
+        } else {
+          total = tQuizOk + tQuizBad; correct = tQuizOk;
+        }
+        const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
+        document.getElementById('tr-total').innerText = total;
+        document.getElementById('tr-correct').innerText = correct;
+        document.getElementById('tr-pct').innerText = pct + '%';
+        if (pct >= 90) { document.getElementById('tr-em').innerText = '🏆'; document.getElementById('tr-title').innerText = 'Xuất sắc!'; document.getElementById('tr-sub').innerText = 'Bạn đã nắm vững chủ đề này rồi!'; }
+        else if (pct >= 70) { document.getElementById('tr-em').innerText = '🎉'; document.getElementById('tr-title').innerText = 'Tốt lắm!'; document.getElementById('tr-sub').innerText = 'Luyện thêm một chút nữa thôi!'; }
+        else { document.getElementById('tr-em').innerText = '💪'; document.getElementById('tr-title').innerText = 'Cố lên!'; document.getElementById('tr-sub').innerText = 'Ôn lại và thử thêm lần nữa nhé!'; }
+      }
+
+      // Hook into showPage to init theme page
+      const _origShowPage = showPage;
+      function showPage(page) {
+        _origShowPage(page);
+        if (page === 'theme' && aDb.length > 0) {
+          initThemePage();
+        }
+      }
+
+      // Keyboard support for type mode
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          const focused = document.activeElement;
+          if (focused && focused.id === 'tq-type-inp') { e.preventDefault(); tTypeCheck(); }
+        }
+      });
 
     </script>
   </body>
